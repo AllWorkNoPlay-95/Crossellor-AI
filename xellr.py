@@ -1,18 +1,20 @@
-import requests
+import argparse
+import sys
 
 
-# region Import Data
-def import_products():
-    pass
+def assert_args(args):
+    if args.url is None and args.file is None:
+        print("Error: Either URL or file path must be specified", file=sys.stderr)
+        sys.exit(1)
 
 
-def import_orders():
-    pass
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--url', '-u', help='Remote download URL', type=str)
+    parser.add_argument('--file', '-f', help='Local file path', type=str)
+    args = parser.parse_args()
+    assert_args(args)
 
 
-def download_from_url(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.content
-    else:
-        raise Exception(f"Failed to download from {url}")
+if __name__ == "__main__":
+    main()
