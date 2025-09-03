@@ -1,11 +1,21 @@
+import re
+
 import requests
 
-from helpers.cli import print_ok
+
+def contains_digits(string):
+    if not isinstance(string, str):
+        return False
+    pattern = r'^\d+(?:[,\.]\d+)?$'
+    return bool(re.match(pattern, string))
 
 
 def embed_products(products, bucket_step):
     for product in products:
-        print_ok(product)
+        for key, value in product.items():
+            if contains_digits(value):
+                print(f"Found numeric values in field '{key}': {value}")
+
     return products
 
 

@@ -1,21 +1,22 @@
 import csv
 import sys
 
+from config import DELIMITER, QUOTE_CHAR
 from helpers.cli import print_err, print_ok, print_info
 
 
-def read_csv(file_path, delimiter, quotechar):
+def read_csv(file_path):
     """
     Read data from a CSV file and return list of rows
     Args:
-        filename (str): Path to CSV file to read
+        file_path (Path): Path to CSV file to read
     Returns:
         list: List of dictionaries with header keys
     """
     rows = []
     try:
         with open(file_path, 'r', newline='\n') as csvfile:
-            reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
+            reader = csv.reader(csvfile, delimiter=DELIMITER, quotechar=QUOTE_CHAR)
             headers = next(reader)
             print_info(f"({len(headers)}) Product attributes: {headers}")
 
