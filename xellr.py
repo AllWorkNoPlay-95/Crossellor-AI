@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 from helpers.cli import print_ok, print_err
-from helpers.importers import download_csv_from_url
+from helpers.importers import download_csv_from_url, import_products
 from helpers.ollama import assert_model
 
 OLLAMA_URL = 'http://localhost:11434'
@@ -31,8 +31,11 @@ def init_args():
 
 
 def main():
+    products = []
     args = init_args()
     assert_model(args.ollama_url, args.embedding_model)
+
+    # region Load CSV
     if args.url:
         csv = download_csv_from_url(args.url)
     else:
@@ -45,6 +48,10 @@ def main():
         except FileNotFoundError:
             print_err(f"File not found: {file_path}")
             sys.exit(1)
+    # endregion
+    # region Load Products
+    products = import_products(csv)
+    # endregion
 
 
 if __name__ == "__main__":
