@@ -9,7 +9,7 @@ def import_orders():
     pass
 
 
-def import_from_url(url):
+def download_csv_from_url(url):
     response = requests.get(url)
     if response.status_code == 200:
         return response.content
