@@ -21,6 +21,7 @@ def init_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--url', '-u', help='Remote download URL', type=str)
     parser.add_argument('--file', '-f', help='Local file path', type=str)
+    parser.add_argument('--output', '-o', help='Output file path', type=str, default="./xellr_output")
     args = parser.parse_args()
     assert_args(args)  # Die if args are invalid
     return args

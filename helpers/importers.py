@@ -2,6 +2,9 @@ import re
 
 import requests
 
+from config import ID_FIELD
+from helpers.buckets import bucket_number
+
 
 def contains_digits(string):
     if not isinstance(string, str):
@@ -13,8 +16,10 @@ def contains_digits(string):
 def embed_products(products, bucket_step):
     for product in products:
         for key, value in product.items():
-            if contains_digits(value):
-                print(f"Found numeric values in field '{key}': {value}")
+            if key != ID_FIELD:
+                if contains_digits(value):
+                    product[key] = bucket_number(value, bucket_step)
+                    print(f"Found numeric values in field '{key}': {value}")
 
     return products
 
