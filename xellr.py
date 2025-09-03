@@ -19,9 +19,9 @@ def init_args():
     parser.add_argument('--file', '-f', help='Local file path', type=str)
     parser.add_argument('--delimiter', '-d', help='Delimiter character', type=str, default=',')
     parser.add_argument('--quotechar', '-q', help='Quote character', type=str, default='"')
-    parser.add_argument('--embedding-model', help='Embedding model name (Ollama)', type=str,
-                        default=EMBEDDING_MODEL)
+    parser.add_argument('--embedding-model', help='Embedding model name (Ollama)', type=str, default=EMBEDDING_MODEL)
     parser.add_argument('--ollama-url', help='Ollama server URL', type=str, default=OLLAMA_URL)
+
     args = parser.parse_args()
     assert_args(args)  # Die if args are invalid
     return args
