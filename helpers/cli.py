@@ -6,8 +6,9 @@ console = Console()
 err_console = Console(stderr=True)
 
 
+# Make the first word occupy exactly 5 spaces
 def print_ok(message):
-    console.print(f"[bold green]OK[/] {message}")
+    console.print(f"[bold green]OK   [/] {message}")
 
 
 def print_err(message):
@@ -15,8 +16,8 @@ def print_err(message):
 
 
 def print_warn(message):
-    console.print(f"[bold yellow]WARN[/] {message}")
+    console.print(f"[bold yellow]WARN [/] {message}")
 
 
 def print_info(message):
-    console.print(f"[bold blue]INFO[/] {message}")
+    console.print(f"[bold blue]INFO [/] {message}")

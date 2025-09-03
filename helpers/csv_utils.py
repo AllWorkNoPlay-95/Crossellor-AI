@@ -1,20 +1,32 @@
 import csv
+import sys
+
+from helpers.cli import print_err, print_ok, print_info
 
 
-def read_csv(filename):
+def read_csv(file_path, delimiter, quotechar):
     """
     Read data from a CSV file and return list of rows
     Args:
         filename (str): Path to CSV file to read
     Returns:
-        list: List of rows from CSV file
+        list: List of dictionaries with header keys
     """
     rows = []
-    with open(filename, 'r', newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        for row in reader:
-            rows.append(row)
-    return rows
+    try:
+        with open(file_path, 'r', newline='\n') as csvfile:
+            reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
+            headers = next(reader)
+            print_info(f"({len(headers)}) Product attributes: {headers}")
+
+            for row in reader:
+                rows.append(dict(zip(headers, row)))
+
+            print_ok(f"Loaded {len(rows)} rows from {file_path}")
+        return rows
+    except FileNotFoundError:
+        print_err(f"File not found: {file_path}")
+        sys.exit(1)
 
 
 def write_csv(filename, data):
