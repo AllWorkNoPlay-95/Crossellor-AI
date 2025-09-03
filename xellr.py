@@ -1,6 +1,11 @@
 import argparse
 import sys
 
+from helpers.ollama import assert_model
+
+OLLAMA_URL = 'http://localhost:11434'
+EMBEDDING_MODEL = 'mxbai-embed-large'
+
 
 def assert_args(args):
     if args.url is None and args.file is None:
@@ -8,12 +13,23 @@ def assert_args(args):
         sys.exit(1)
 
 
-def main():
+def init_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--url', '-u', help='Remote download URL', type=str)
     parser.add_argument('--file', '-f', help='Local file path', type=str)
+    parser.add_argument('--delimiter', '-d', help='Delimiter character', type=str, default=',')
+    parser.add_argument('--quotechar', '-q', help='Quote character', type=str, default='"')
+    parser.add_argument('--embedding-model', help='Embedding model name (Ollama)', type=str,
+                        default=EMBEDDING_MODEL)
+    parser.add_argument('--ollama-url', help='Ollama server URL', type=str, default=OLLAMA_URL)
     args = parser.parse_args()
-    assert_args(args)
+    assert_args(args)  # Die if args are invalid
+    return args
+
+
+def main():
+    args = init_args()
+    assert_model(args.ollama_url, args.embedding_model)
 
 
 if __name__ == "__main__":
