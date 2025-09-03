@@ -3,7 +3,7 @@ import requests
 from helpers.cli import print_ok
 
 
-def embed_products(products):
+def embed_products(products, bucket_step):
     for product in products:
         print_ok(product)
     return products
