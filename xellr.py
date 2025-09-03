@@ -1,6 +1,9 @@
 import argparse
 import sys
+from pathlib import Path
 
+from helpers.cli import print_ok, print_err
+from helpers.importers import download_csv_from_url
 from helpers.ollama import assert_model
 
 OLLAMA_URL = 'http://localhost:11434'
@@ -9,7 +12,7 @@ EMBEDDING_MODEL = 'mxbai-embed-large'
 
 def assert_args(args):
     if args.url is None and args.file is None:
-        print("Error: Either URL or file path must be specified", file=sys.stderr)
+        print_err("Either URL or file path must be specified")
         sys.exit(1)
 
 
@@ -30,6 +33,18 @@ def init_args():
 def main():
     args = init_args()
     assert_model(args.ollama_url, args.embedding_model)
+    if args.url:
+        csv = download_csv_from_url(args.url)
+    else:
+        file_path = Path(args.file).expanduser().resolve()
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                csv = f.read()
+            path = str(file_path)
+            print_ok(f"Loaded {len(csv.splitlines())} rows from {path}")
+        except FileNotFoundError:
+            print_err(f"File not found: {file_path}")
+            sys.exit(1)
 
 
 if __name__ == "__main__":

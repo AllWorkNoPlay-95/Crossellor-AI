@@ -33,6 +33,7 @@ def assert_model(ollama_url: str, model_name: str) -> bool:
         elif response.status_code != 200:
             print_err(f"Failed to check model {model_name}")
             return False
+        
         print_ok(f"{model_name} is available on this machine")
         return True
 
